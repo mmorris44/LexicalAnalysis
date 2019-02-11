@@ -42,11 +42,31 @@ public class EpsilonNFA {
     }
 
     public static EpsilonNFA fromOr(RegularExpression r1, RegularExpression r2) {
-        return new EpsilonNFA(r1);
+        EpsilonNFA epsilonNFA = new EpsilonNFA();
+        EpsilonNFA e1 = new EpsilonNFA(r1);
+        EpsilonNFA e2 = new EpsilonNFA(r2);
+
+        epsilonNFA.states.addAll(e1.states);
+        epsilonNFA.states.addAll(e2.states);
+        epsilonNFA.startState = new State();
+        epsilonNFA.acceptStates.add(new State());
+
+        epsilonNFA.startState.addTransition(new RegularExpression(""), e1.startState);
+        epsilonNFA.startState.addTransition(new RegularExpression(""), e2.startState);
+        e1.acceptStates.get(0).addTransition(new RegularExpression(""), epsilonNFA.acceptStates.get(0));
+        e2.acceptStates.get(0).addTransition(new RegularExpression(""), epsilonNFA.acceptStates.get(0));
+
+        return epsilonNFA;
     }
 
     public static EpsilonNFA fromClosure(RegularExpression r) {
-        return new EpsilonNFA(r);
+        EpsilonNFA epsilonNFA = new EpsilonNFA();
+        State state = new State();
+        state.addTransition(r, state);
+
+        epsilonNFA.startState = state;
+        epsilonNFA.acceptStates.add(state);
+        return epsilonNFA;
     }
 
 }

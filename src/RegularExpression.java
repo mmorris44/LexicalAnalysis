@@ -1,9 +1,5 @@
-import java.util.ArrayList;
-
 /**
  * . = any character
- * ? = previous character optional
- * + = 1 or more
  * \ = interpret next character as a literal
  * *, (), and + operate in the usual way
  * Listing characters next to each other is concatenation
@@ -11,7 +7,7 @@ import java.util.ArrayList;
  */
 public class RegularExpression {
 
-    public static final char[] RESERVED_CHARS = {'?', '+', '\\', '*', '(', ')', '+'};
+    public static final char[] RESERVED_CHARS = {'\\', '*', '(', ')', '+'};
     public String re;
 
     public RegularExpression(String re) {
@@ -28,6 +24,14 @@ public class RegularExpression {
         }
 
         return true; // Any other single character
+    }
+
+    public boolean match (char character) throws UnsimplifiedRegexException {
+        if (!isSimple()) throw new UnsimplifiedRegexException();
+
+        if (re.charAt(0) == '\\') return re.charAt(1) == character; // Literal
+        if (re.charAt(0) == '.') return true; // Anything
+        return re.charAt(0) == character; // Check for same
     }
 
 }
