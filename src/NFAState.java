@@ -1,19 +1,19 @@
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class State {
+public class NFAState {
 
-    public HashMap<RegularExpression, HashSet<State>> transitions;
+    public HashMap<RegularExpression, HashSet<NFAState>> transitions;
 
-    public State() {
+    public NFAState() {
         transitions = new HashMap<>();
     }
 
-    public void addTransition (RegularExpression r, State s) {
+    public void addTransition (RegularExpression r, NFAState s) {
         if (transitions.containsKey(r)) {
             transitions.get(r).add(s);
         } else {
-            HashSet<State> hashSet = new HashSet<>();
+            HashSet<NFAState> hashSet = new HashSet<>();
             hashSet.add(s);
             transitions.put(r, hashSet);
         }

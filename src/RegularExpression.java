@@ -8,6 +8,8 @@
 public class RegularExpression {
 
     public static final char[] RESERVED_CHARS = {'\\', '*', '(', ')', '+'};
+    public static final RegularExpression EPSILON = new RegularExpression("");
+
     public String re;
 
     public RegularExpression(String re) {
